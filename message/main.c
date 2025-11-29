@@ -20,6 +20,7 @@
 //    return 0;
 //}
 
+#if 0
 unsigned getCount(unsigned *d, unsigned start, unsigned end)
 {
     unsigned chatroom[10] = {0};
@@ -28,6 +29,43 @@ unsigned getCount(unsigned *d, unsigned start, unsigned end)
     for (int i = start; i <= end; ++i) chatroom[d[i]] = 1;
     for (int i = 0; i < 10; ++i) sum += chatroom[i];
     return sum;
+}
+#endif
+
+static unsigned chatroom[10] = {0};
+
+void setChatroom(unsigned *d, unsigned idx, int isEnter)
+{
+    if (isEnter) chatroom[d[idx]]++;
+    else chatroom[d[idx]]--;
+}
+
+unsigned getCnt(void)
+{
+    unsigned ret = 0;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        if (chatroom[i]) ret++;
+    }
+
+    dbg("getCnt=%d\n", ret);
+
+    return ret;
+}
+
+unsigned getLen(void)
+{
+    unsigned ret = 0;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        ret += chatroom[i];
+    }
+
+    dbg("getLen=%d\n", ret);
+
+    return ret;
 }
 
 unsigned getMaxLen(unsigned *d, unsigned size)
@@ -38,14 +76,15 @@ unsigned getMaxLen(unsigned *d, unsigned size)
     for (int right = 0; right < size; ++right)
     {
         dbg("+%d,", d[right]);
-        if (getCount(d, left, right) < 3)
+        setChatroom(d, right, 1);
+        if (getCnt() < 3)
         {
-            len = right - left + 1;
+            len = getLen();
 
             if (len > maxLen)
             {
                 maxLen = len;
-                dbg("\nmaxLen=%d\n", maxLen);
+                dbg("maxLen=%d\n", maxLen);
             }
             continue;
         }
@@ -60,8 +99,10 @@ unsigned getMaxLen(unsigned *d, unsigned size)
         while (left != right)
         {
             dbg("-%d,", d[left]);
+            setChatroom(d, left, 0);
             left++;
-            if (getCount(d, left, right) < 3) break;
+            //if (getCount(d, left, right) < 3) break;
+            if (getCnt() < 3) break;
         }
 
 //        if (len > maxLen)
