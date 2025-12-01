@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DBG (1)
+#define DBG (0)
 
 #if DBG
 #define dbg(s, b...) printf(s, ##b)
@@ -48,9 +48,11 @@ unsigned factorial(unsigned n)
     return n * factorial(n - 1);
 }
 
+static int n; /*數列有幾個數字*/
+
 int cmpRecursive(int *x, int *y, int pos)
 {
-    if (pos == 3) return 0;
+    if (pos == n) return 0;
 
     if (x[pos] > y[pos]) return 1;
     else if (x[pos] < y[pos]) return -1;
@@ -68,8 +70,14 @@ int cmp(const void *a, const void *b)
 
 int main()
 {
-    int arr[] = {2, 1, 3};
-    int n = sizeof(arr) / sizeof(arr[0]);
+
+
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; ++i)
+    {
+        scanf("%d", arr + i);
+    }
 
     int msize = factorial(n); dbg("msize=%d\n", msize);
 
@@ -78,8 +86,8 @@ int main()
 
     for (int i = 0; i < msize; ++i)
     {
-        b[i] = malloc(sizeof(int) * sizeof(arr));
-        memset(b[i], 0, sizeof(int) * sizeof(arr));
+        b[i] = malloc(sizeof(int) * n);
+        memset(b[i], 0, sizeof(int) * n);
     }
 
     permute(arr, b, 0, n - 1);
@@ -98,17 +106,15 @@ int main()
 
     qsort(b, msize, sizeof(int *), cmp);
 
-#if DBG
     dbg("after qsort\n");
     for (int i = 0; i < msize; ++i)
     {
         for (int j = 0; j < n; ++j)
         {
-            dbg("%d ", b[i][j]);
+            printf("%d ", b[i][j]);
         }
-        dbg("\n");
+        printf("\n");
     }
-#endif
 
     for (int i = 0; i < msize; ++i) free(b[i]);
     free(b);
