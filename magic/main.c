@@ -1,7 +1,33 @@
 // v0.1 TIMELIMIT
+// v0.2 CORRECT
 
 #include <stdio.h>
 #include <stdlib.h>
+
+int search(int key, int *a, int from, int to)
+{
+    int mid;
+
+    while (from <= to)
+    {
+        mid = (from + to) / 2;
+        if (key == a[mid])
+        {
+            return mid;
+        }
+        else if (key < a[mid])
+        {
+            to = mid - 1;
+        }
+        else // (key > a[mid])
+        {
+            from = mid + 1;
+        }
+    }
+
+//    printf("from=%d; to=%d\n", from, to);
+    return from;
+}
 
 int main()
 {
@@ -17,7 +43,7 @@ int main()
         a[i] = tmp + a[i - 1];
     }
 
-//    for (int i = 1; i < n + 1; ++i)
+//    for (int i = 0; i < n + 1; ++i)
 //    {
 //        printf("%d,", a[i]);
 //    }
@@ -35,6 +61,7 @@ int main()
 //        printf("%d,", q[i]);
 //    }
 
+#if 0
     for (int i = 0; i < m; ++i)
     {
         int j = 1; //printf("%d", q[i]);
@@ -45,6 +72,12 @@ int main()
         printf("%d\n", j);
     }
 
+#endif
+
+    for (int i = 0; i < m; ++i)
+    {
+        printf("%d\n", search(q[i], a, 0, n));
+    }
 
 
 
