@@ -5,16 +5,16 @@
 
 #define SZ (1002)
 
-void inorder(int a[], int i)
+void inorder(int a[], const int n, const int i)
 {
-    if (a[2 * i + 1] > -1)
+    if ((2 * i + 1) < n)
     {
-        inorder(a, 2 * i + 1);
+        inorder(a, n, 2 * i + 1);
     }
     printf("%d ", a[i]);
-    if (a[2 * i + 2] > -1)
+    if ((2 * i + 2) < n)
     {
-        inorder(a, 2 * i + 2);
+        inorder(a, n, 2 * i + 2);
     }
 }
 
@@ -30,7 +30,7 @@ int main()
         scanf("%d", a + i);
     }
 
-    inorder(a, 0);
+    inorder(a, n, 0);
 
     return 0;
 }
