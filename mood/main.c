@@ -1,25 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main()
 {
     int n, begin, end;
-    int sum = 0;
-    //char *a;
+    char *a;
+    int *sum;
+
     scanf("%d", &n);
-    int a[n + 1];
 
-//    a = (char *) malloc(sizeof(char) * (n+1));
-    for (int i = 0; i <= n; ++i)
+    a = malloc(sizeof(char) * n);
+    sum = malloc(sizeof(int) * (n + 1));
+    memset(a, 0, sizeof(char) * n);
+    memset(sum, 0, sizeof(int) * (n + 1));
+
+    for (int i = 0; i < n; ++i)
     {
-        a[i] = 0;
+        scanf("%d", a + i);
+        sum[i + 1] += sum[i] + a[i];
     }
 
-    for (int i = 1; i <= n; ++i)
+#if 0
+    for (int i = 0; i < n + 1; ++i)
     {
-        scanf("%d", &(a[i]));
-//        sum += a[i];
+        printf("%d ", sum[i]);
     }
+    printf("\n");
+#endif
 
     while (scanf("%d %d", &begin, &end) != EOF)
     {
@@ -29,16 +37,20 @@ int main()
 //            printf("%d\n", sum);
 //            continue;
 //        }
-
+#if 0
         sum = 0;
         for (int i = begin; i <= end; ++i)
         {
             sum += a[i];
         }
-        printf("%d\n", sum);
+#endif
+        /* «eºó©M */
+
+        printf("%d\n", sum[end] - sum[begin - 1]);
     }
 
-//    free(a);
+    free(a);
+    free(sum);
 
     return 0;
 }
