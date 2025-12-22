@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DBG (0)
+#define DBG (1)
 
 #if DBG
 #define dbg(s, b...) printf(s, ##b);
@@ -22,7 +22,7 @@ int getLen(const ULL a)
         d++;
     }
 
-    dbg("d=%d\n", d);
+    //dbg("d=%d\n", d);
     return d;
 }
 
@@ -36,20 +36,22 @@ int main()
     while (n > 0)
     {
         scanf("%llu %llu", &a, &b);
+        cnt = 0;
 
-
-
-        for (int i = 1; i <= a; ++i)
+        for (ULL i = 1; i <= a; ++i)
         {
-            for (int j = 1; j <= b; ++j)
+            for (ULL j = 1; j <= b; ++j)
             {
                 calc = i + j + i * j;
+
                 comb = i;
                 for (int k = 0; k < getLen(j); ++k) comb *= 10;
-                comb += j; dbg("calc=%llu, comb=%llu\n", calc, comb);
+                comb += j; //dbg("calc=%llu, comb=%llu\n", calc, comb);
+
                 if (calc == comb)
                 {
                     ++cnt;
+                    dbg("%llu,%llu\n", i, j);
                 }
 
             }
@@ -63,3 +65,4 @@ int main()
 
     return 0;
 }
+
